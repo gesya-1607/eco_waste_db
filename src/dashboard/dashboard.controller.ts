@@ -4,21 +4,18 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-
 import type { Request } from 'express';
-
 import {
   ApiOperation,
   ApiResponse,
   ApiSecurity,
   ApiTags,
 } from '@nestjs/swagger';
-
 import { DashboardService } from './dashboard.service';
-
 import { AppKeyGuard } from '../auth/guards/app-key.guard';
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import { AdminGuard } from '../admin/guards/admin.guard';
+import { NasabahGuard } from '../auth/guards/nasabah/nasabah.guard';
 
 @ApiTags('Dashboard')
 @Controller('api/v1/dashboard')
@@ -35,7 +32,9 @@ export class DashboardController {
   // GET /api/v1/dashboard/summary
   // NASABAH
   // ==========================================
+
   @Get('summary')
+  @UseGuards(NasabahGuard)
   @ApiOperation({
     summary: 'Dashboard Summary Nasabah',
     description:
@@ -50,6 +49,11 @@ export class DashboardController {
     status: 401,
     description:
       'App Key atau JWT tidak valid.',
+  })
+  @ApiResponse({
+    status: 403,
+    description:
+      'Endpoint ini hanya dapat diakses menggunakan token Nasabah.',
   })
   getSummary(
     @Req()
@@ -72,6 +76,7 @@ export class DashboardController {
   // GET /api/v1/dashboard/stats
   // ADMIN
   // ==========================================
+
   @Get('stats')
   @UseGuards(AdminGuard)
   @ApiOperation({
