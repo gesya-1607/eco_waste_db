@@ -21,16 +21,17 @@ model adminbank {
   user     user     @relation(fields: [userId], references: [id], onDelete: Cascade, map: "AdminBank_userId_fkey")
 
   @@index([appMakerId], map: "AdminBank_appMakerId_idx")
+  @@map("AdminBank")
 }
 
 model appmaker {
-  id        Int    @id @default(autoincrement())
-  email     String @unique(map: "AppMaker_email_key")
+  id        Int      @id @default(autoincrement())
+  email     String   @unique(map: "AppMaker_email_key")
   password  String
   namaSiswa String
   kelas     String
   namaApp   String
-  appKey    String @unique(map: "AppMaker_appKey_key")
+  appKey    String   @unique(map: "AppMaker_appKey_key")
   createdAt DateTime @default(now())
   updatedAt DateTime
 
@@ -41,6 +42,8 @@ model appmaker {
   penukaranpoin  penukaranpoin[]
   setorsampah    setorsampah[]
   user           user[]
+
+  @@map("AppMaker")
 }
 
 model detailsetor {
@@ -59,6 +62,7 @@ model detailsetor {
 
   @@index([kategoriSampahId], map: "DetailSetor_kategoriSampahId_idx")
   @@index([setorSampahId], map: "DetailSetor_setorSampahId_idx")
+  @@map("DetailSetor")
 }
 
 model hadiah {
@@ -75,6 +79,7 @@ model hadiah {
   penukaranpoin penukaranpoin[]
 
   @@index([appMakerId], map: "Hadiah_appMakerId_idx")
+  @@map("Hadiah")
 }
 
 model kategorisampah {
@@ -92,6 +97,7 @@ model kategorisampah {
   appmaker    appmaker @relation(fields: [appMakerId], references: [id], onDelete: Cascade, map: "KategoriSampah_appMakerId_fkey")
 
   @@index([appMakerId], map: "KategoriSampah_appMakerId_idx")
+  @@map("KategoriSampah")
 }
 
 model nasabah {
@@ -113,6 +119,7 @@ model nasabah {
   setorsampah   setorsampah[]
 
   @@index([appMakerId], map: "Nasabah_appMakerId_idx")
+  @@map("Nasabah")
 }
 
 model penukaranpoin {
@@ -134,6 +141,7 @@ model penukaranpoin {
   @@index([nasabahId], map: "PenukaranPoin_nasabahId_idx")
   @@index([status], map: "PenukaranPoin_status_idx")
   @@index([tanggal], map: "PenukaranPoin_tanggal_idx")
+  @@map("PenukaranPoin")
 }
 
 model setorsampah {
@@ -159,6 +167,7 @@ model setorsampah {
   @@index([nasabahId], map: "SetorSampah_nasabahId_idx")
   @@index([status], map: "SetorSampah_status_idx")
   @@index([tanggal], map: "SetorSampah_tanggal_idx")
+  @@map("SetorSampah")
 }
 
 model user {
@@ -176,6 +185,7 @@ model user {
 
   @@unique([appMakerId, username], map: "User_appMakerId_username_key")
   @@index([appMakerId], map: "User_appMakerId_idx")
+  @@map("User")
 }
 
 enum user_role {
